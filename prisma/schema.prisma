@@ -9,3 +9,40 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id            String          @default(uuid()) @unique
+  name          String
+  email         String          @unique
+  password      String
+  profilePic    String
+  infraProblems InfraProblem[]
+  problemUps    ProblemUps[]
+}
+
+model InfraProblem {
+  id            Int          @unique @default(autoincrement())
+  problemPic    String
+  description   String?
+  location      String
+  idRelator     String
+  Relator       User         @relation(fields: [idRelator], references: [id])
+  idType        Int
+  Type          ProblemType  @relation(fields: [idType], references: [id])
+  problemUps    ProblemUps[]
+}
+
+model ProblemType {
+  id            Int          @unique @default(autoincrement())
+  category      String
+  infraProblems InfraProblem[]
+}
+
+model ProblemUps {
+  idUser        String
+  idProblem     Int
+  User          User          @relation(fields: [idUser], references: [id])
+  Problem       InfraProblem  @relation(fields: [idProblem], references: [id])
+
+  @@id([idUser, idProblem])
+}
