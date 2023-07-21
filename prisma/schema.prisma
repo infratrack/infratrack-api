@@ -15,20 +15,23 @@ model User {
   name          String
   email         String          @unique
   password      String
-  profilePic    String
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @default(now())
   infraProblems InfraProblem[]
   problemUps    ProblemUps[]
 }
 
 model InfraProblem {
-  id            Int          @unique @default(autoincrement())
+  id            Int             @unique @default(autoincrement())
   problemPic    String
   description   String?
   location      String
   idRelator     String
-  Relator       User         @relation(fields: [idRelator], references: [id])
+  created_at    DateTime        @default(now())
+  updated_at    DateTime        @default(now())
+  Relator       User            @relation(fields: [idRelator], references: [id])
   idType        Int
-  Type          ProblemType  @relation(fields: [idType], references: [id])
+  Type          ProblemType     @relation(fields: [idType], references: [id])
   problemUps    ProblemUps[]
 }
 
