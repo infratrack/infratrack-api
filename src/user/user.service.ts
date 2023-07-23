@@ -4,7 +4,9 @@ import { prisma } from 'src/prisma.client';
 import { User } from '@prisma/client';
 import * as bcrypt from 'bcrypt';
 import * as dotenv from 'dotenv';
+import { S3_UploadImage } from 'src/s3.handler';
 dotenv.config({path:'../../.env'})
+
 
 @Injectable()
 export class UserService {
@@ -76,4 +78,9 @@ export class UserService {
             return error.message;
         }
     }
+
+    async subirImg(filename:string, data:string){
+        S3_UploadImage({filename, data})
+    }
+        
 }

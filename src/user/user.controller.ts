@@ -31,10 +31,15 @@ export class UserController {
 
   }
 
-  @UseGuards(AuthGuard)
+  // @UseGuards(AuthGuard)
+  // @Get()
+  // async getOi(){
+  //   return 'oi'
+  // }
+
   @Get()
-  async getOi(){
-    return 'oi'
+  async SubirTxt(){
+    return this.userService.subirImg('agr.txt', 'oi');
   }
 
   // @HttpCode(HttpStatus.OK)
