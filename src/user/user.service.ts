@@ -79,8 +79,8 @@ export class UserService {
         }
     }
 
-    async subirImg(filename:string, data:string){
-        S3_UploadImage({filename, data})
+    async subirImg({userId, data}: any){
+        return S3_UploadImage({userId, data})
     }
         
 }

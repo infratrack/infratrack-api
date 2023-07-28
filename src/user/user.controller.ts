@@ -18,45 +18,43 @@ export class UserController {
       const result = await this.userService.createUser({name, email, password});
 
       if(result == 'Email invalid'){
-        response.status(403).send(new BadRequestException('Email invalid'));
+        response.status(403).json(new BadRequestException('Email invalid'));
       }
 
-      response.status(201).send(result)
+      response.status(201).json(result)
 
     } catch (error) {
 
-      response.status(500).send(error);
+      response.status(500).json(error);
       
     }
 
   }
 
-  // @UseGuards(AuthGuard)
-  // @Get()
-  // async getOi(){
-  //   return 'oi'
-  // }
+  // TODO: this should be on infraproblems controller
+  @Post()
+  async SubirTxt(@Req() request: Request, @Res() response: Response){
+    // console.log(request.file)
+    const {userId, data} = request.body;
+    const result = await this.userService.subirImg({userId, data});
 
-  @Get()
-  async SubirTxt(){
-    return this.userService.subirImg('agr.txt', 'oi');
+    switch (result) {              // SENDING RESPONSE STATUS AND ERRORS
+      case true:
+        response.status(200).json('Success');
+      break;
+        
+      case 'Missing data':
+        response.status(403).json(result);
+        break;
+        
+      case 'Error reading image':
+        response.status(403).json(result);
+      break;
+
+      case 'Internal Server Error':
+        response.status(500).json(result);
+      break;
+    }
+
   }
-
-  // @HttpCode(HttpStatus.OK)
-  // @Post('/login')
-  // async login(@Req() request: Request, @Res() response: Response) {
-
-  //   try {
-
-  //     const {email, password} = request.body
-  //     const result = await this.userService.login({email, password});
-
-  //     response.send(result)
-
-
-      
-  //   } catch (error) {
-      
-  //   }
-  // }
 }
