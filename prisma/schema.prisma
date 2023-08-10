@@ -23,23 +23,25 @@ model User {
 
 model InfraProblem {
   id            Int             @unique @default(autoincrement())
-  problemPic    String
+  problemTitle  String
+  problemPic    String[]
   description   String?
-  location      String
+  location      Float[]
   idRelator     String
   created_at    DateTime        @default(now())
   updated_at    DateTime        @default(now())
   Relator       User            @relation(fields: [idRelator], references: [id])
-  idType        Int
-  Type          ProblemType     @relation(fields: [idType], references: [id])
+  type          String
+  // idType        Int
+  // Type          ProblemType     @relation(fields: [idType], references: [id])
   problemUps    ProblemUps[]
 }
 
-model ProblemType {
-  id            Int          @unique @default(autoincrement())
-  category      String
-  infraProblems InfraProblem[]
-}
+// model ProblemType {
+//   id            Int          @unique @default(autoincrement())
+//   category      String
+//   infraProblems InfraProblem[]
+// }
 
 model ProblemUps {
   idUser        String
